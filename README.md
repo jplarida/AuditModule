@@ -104,33 +104,36 @@ place these 3 files on the same directory and play the vidoe file
 
 ## Tables and Fields
 
-### `audit_logs`
+### audit_logs
 - **id** (Primary Key, BIGINT, AUTO_INCREMENT): Unique identifier for the log.
-- **event_type** (VARCHAR(100)): Type of event (e.g., CREATE, UPDATE, DELETE).
+- **event_type_id** (INT, Foreign Key): Reference to the event type in `audit_event_types`.
 - **user_id** (BIGINT, Foreign Key): Reference to the user who triggered the event.
 - **object_type** (VARCHAR(100)): The type of entity affected (e.g., Invoice, User).
 - **object_id** (BIGINT): Identifier of the affected entity.
 - **timestamp** (TIMESTAMP): When the event occurred.
-- **domain_source** (VARCHAR(100)): Source Domain of the log.
+- **domain_source** (VARCHAR(100)): Source domain of the log.
 - **ip_address** (VARCHAR(45)): IP address of the user who triggered the event.
 - **description** (TEXT): Detailed description of the event.
 - **metadata** (JSONB): Additional data about the event (flexible schema for event-specific details).
 - **created_at** (TIMESTAMP, DEFAULT CURRENT_TIMESTAMP): When the log was created.
 - **updated_at** (TIMESTAMP, DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP): Last time the data was updated.
+- **Indexes**:
+  - Index on `event_type_id` for quick filtering by event types.
+  - Index on `user_id` for tracking actions by a specific user.
+  - Composite index on `(object_type, object_id)` for entity-specific filtering.
 
-#### Indexes:
-- Index on `event_type` for quick filtering by event types.
-- Index on `user_id` for tracking actions by a specific user.
-- Composite index on (`object_type`, `object_id`) for entity-specific filtering.
+---
 
-### `audit_event_types`
+### audit_event_types
 - **id** (Primary Key, INT): Unique identifier for the event type.
-- **event_name** (VARCHAR(100)): Name of the event type.
+- **event_name** (VARCHAR(100)): Name of the event type (e.g., CREATE, UPDATE, DELETE).
 - **description** (TEXT): Detailed description of the event.
 - **created_at** (TIMESTAMP, DEFAULT CURRENT_TIMESTAMP): When the event type was created.
 - **updated_at** (TIMESTAMP, DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP): Last time the event type was updated.
 
-### `users` (if the audit module is an independent system)
+---
+
+### users
 - **id** (Primary Key, BIGINT): Unique identifier.
 - **username** (VARCHAR(100)): User's login name.
 - **email** (VARCHAR(255)): Email address.
