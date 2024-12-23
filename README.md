@@ -8,11 +8,7 @@
 
 # Video and Audio Presentation - Your browser does not support the video tag.
 
-- [Download Video](./audit_module/video1318901265.mp4)
 
-- [Download VideoAudioConfig](./audit_module/recording.conf)
-
-- [Download audio](./audit_module/audio1318901265.m4a)
 
 place these 3 files on the same directory and play the vidoe file
 
